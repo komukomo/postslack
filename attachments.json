@@ -1,0 +1,14 @@
+{
+    "username": "name",
+    "channel": "#times_komukomo",
+    "icon_emoji": ":sushi:",
+    "attachments": [
+        {
+            "color": "#ff0000",
+            "pretext": "Optional text that appears above the attachment block",
+            "author_name": "Bobby Tables",
+            "title": "title: {{.Title}}",
+            "text": "text: {{.Contents}}"
+        }
+    ]
+}
