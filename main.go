@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./slack"
+	"github.com/komukomo/postslack/slack"
 	"bufio"
 	"bytes"
 	"encoding/json"
