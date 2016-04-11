@@ -22,7 +22,7 @@ func main() {
 	args["icon"] = flag.String("i", config.Icon, "bot icon. emoji or URL ")
 	args["incomingURL"] = flag.String("url", config.Url, "incomingURL")
 	args["attachmentsFile"] = flag.String("a", "", "attachment filepath")
-	args["param"] = flag.String("p", "Title=testtitle&Contents=__stdin", "parameters")
+	args["param"] = flag.String("p", "", "parameters")
 	flag.Parse()
 
 	output := getStdin()
