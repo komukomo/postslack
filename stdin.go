@@ -23,9 +23,13 @@ func main() {
 	args["incomingURL"] = flag.String("url", config.Url, "incomingURL")
 	args["attachmentsFile"] = flag.String("a", "", "attachment filepath")
 	args["param"] = flag.String("p", "", "parameters")
+	noStdin := flag.Bool("e", false, "no stdin (for attachments post)")
 	flag.Parse()
 
-	output := getStdin()
+	output := ""
+	if !*noStdin {
+		output = getStdin()
+	}
 
 	if *args["attachmentsFile"] != "" {
 		parameters := str2map(*args["param"], output)
