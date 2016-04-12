@@ -26,6 +26,10 @@ func main() {
 	noStdin := flag.Bool("e", false, "no stdin (for attachments post)")
 	flag.Parse()
 
+	if *args["incomingURL"] == "" {
+		panic("no value for incoming-webhook URL")
+	}
+
 	output := ""
 	if !*noStdin {
 		output = getStdin()
