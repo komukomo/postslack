@@ -94,12 +94,7 @@ func getStdin() (stdin string) {
 }
 
 func loadDefaultConfig(configFilePath string) slack.Config {
-	config := slack.Config{
-		os.Getenv("SLACK_URL"),
-		os.Getenv("SLACK_CHANNEL"),
-		os.Getenv("SLACK_ICON"),
-		os.Getenv("SLACK_NAME"),
-	}
+	config := loadEnvConfig()
 
 	if exists(configFilePath) {
 		file, err := ioutil.ReadFile(configFilePath)
@@ -109,4 +104,13 @@ func loadDefaultConfig(configFilePath string) slack.Config {
 		json.Unmarshal(file, &config)
 	}
 	return config
+}
+
+func loadEnvConfig() slack.Config{
+	return slack.Config{
+		os.Getenv("SLACK_URL"),
+		os.Getenv("SLACK_CHANNEL"),
+		os.Getenv("SLACK_ICON"),
+		os.Getenv("SLACK_NAME"),
+	}
 }
