@@ -14,7 +14,8 @@ import (
 )
 
 func main() {
-	config := loadDefaultConfig("./config.json")
+	configFilePath := os.Getenv("HOME") + "/.postslackrc"
+	config := loadDefaultConfig(configFilePath)
 
 	args := make(map[string]*string)
 	args["channel"] = flag.String("c", config.Channel, "cannel name")
