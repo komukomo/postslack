@@ -18,13 +18,13 @@ func main() {
 	config := loadDefaultConfig(configFilePath)
 
 	args := make(map[string]*string)
-	args["channel"] = flag.String("c", config.Channel, "cannel name")
-	args["botname"] = flag.String("n", config.Name, "bot name")
-	args["icon"] = flag.String("i", config.Icon, "bot icon. emoji or URL ")
+	args["channel"] = flag.String("ch", config.Channel, "channel name")
+	args["botname"] = flag.String("name", config.Name, "bot name")
+	args["icon"] = flag.String("icon", config.Icon, "bot icon. emoji or URL ")
 	args["incomingURL"] = flag.String("url", config.Url, "incomingURL")
-	args["attachmentsFile"] = flag.String("a", "", "attachment filepath")
-	args["param"] = flag.String("p", "", "parameters")
-	noStdin := flag.Bool("e", false, "no stdin (for attachments post)")
+	args["attachmentsFile"] = flag.String("att", attachmentsFilePath, "attachment filepath")
+	args["param"] = flag.String("param", "", "parameters")
+	noStdin := flag.Bool("empty", false, "no stdin (for attachments post)")
 	flag.Parse()
 
 	if *args["incomingURL"] == "" {
