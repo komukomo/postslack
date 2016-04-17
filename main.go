@@ -74,10 +74,12 @@ func str2map(param string, str string) map[string]string {
 
 	for _, val := range paramlist {
 		a := strings.Split(val, "=")
-		if a[1] == "__stdin" {
-			result[a[0]] = strings.Replace(str, "\n", "\\n", -1)
-		} else {
-			result[a[0]] = a[1]
+		if len(a) == 2 {
+			if a[1] == "__stdin" {
+				result[a[0]] = strings.Replace(str, "\n", "\\n", -1)
+			} else {
+				result[a[0]] = a[1]
+			}
 		}
 	}
 	return result
