@@ -15,6 +15,7 @@ import (
 
 func main() {
 	configFilePath := os.Getenv("HOME") + "/.postslackrc"
+	attachmentsFilePath := os.Getenv("HOME") + "/.at-postslackrc"
 	config := loadDefaultConfig(configFilePath)
 
 	args := make(map[string]*string)
@@ -25,6 +26,7 @@ func main() {
 	args["attachmentsFile"] = flag.String("att", attachmentsFilePath, "attachment filepath")
 	args["param"] = flag.String("param", "", "parameters")
 	noStdin := flag.Bool("empty", false, "no stdin (for attachments post)")
+	noAttachments := flag.Bool("no-attachments", false, "no attachments")
 	flag.Parse()
 
 	if *args["incomingURL"] == "" {
@@ -36,11 +38,15 @@ func main() {
 		output = getStdin()
 	}
 
-	if *args["attachmentsFile"] != "" {
-		parameters := str2map(*args["param"], output)
-		postAttachments(*args["incomingURL"], *args["attachmentsFile"], parameters)
-	} else {
+	if *noAttachments {
 		simplePost(args, output)
+	} else {
+		if exists(*args["attachmentsFile"]) {
+			parameters := str2map(*args["param"], output)
+			postAttachments(*args["incomingURL"], *args["attachmentsFile"], parameters)
+		} else {
+			panic("no attachmentsFile")
+		}
 	}
 }
 
@@ -72,6 +78,7 @@ func str2map(param string, str string) map[string]string {
 	paramlist := strings.Split(param, "&")
 	result := make(map[string]string)
 
+	result["Stdin"] = strings.Replace(str, "\n", "\\n", -1)
 	for _, val := range paramlist {
 		a := strings.Split(val, "=")
 		if len(a) == 2 {
