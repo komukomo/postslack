@@ -31,3 +31,23 @@ $ cat <<EOF > ~/.postslackrc
 EOF
 $ echo "message" | postslack -no-attachments
 ```
+
+### Richly-formatted messages
+`postslack` supports Messaage Attachments.
+You need `~/.at-postslackrc` as a template file.
+
+```sh
+$ cat <<EOF > ~/.at-postslackrc
+{
+  "username": "botname",
+  "channel": "#random",
+  "attachments": [
+    {
+      "text": {{.Stdin}}
+    }
+  ]
+}
+EOF
+
+$ echo "message" | postslack
+```
