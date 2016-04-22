@@ -121,7 +121,7 @@ func loadDefaultConfig(configFilePath string) slack.Config {
 	return config
 }
 
-func loadEnvConfig() slack.Config{
+func loadEnvConfig() slack.Config {
 	return slack.Config{
 		os.Getenv("SLACK_URL"),
 		os.Getenv("SLACK_CHANNEL"),
