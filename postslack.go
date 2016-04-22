@@ -1,33 +1,38 @@
 package main
 
 import (
-	"github.com/komukomo/postslack/slack"
 	"bufio"
 	"bytes"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/komukomo/postslack/slack"
 	"io/ioutil"
 	"os"
 	"strings"
 	"text/template"
 )
 
-func main() {
+type PostSlack struct {
+}
+
+func (ps PostSlack) Run(osArgs []string) {
 	configFilePath := os.Getenv("HOME") + "/.postslackrc"
 	attachmentsFilePath := os.Getenv("HOME") + "/.at-postslackrc"
 	config := loadDefaultConfig(configFilePath)
 
+	flags := flag.NewFlagSet("postslack", flag.ContinueOnError)
+
 	args := make(map[string]*string)
-	args["channel"] = flag.String("ch", config.Channel, "channel name")
-	args["botname"] = flag.String("name", config.Name, "bot name")
-	args["icon"] = flag.String("icon", config.Icon, "bot icon. emoji or URL ")
-	args["incomingURL"] = flag.String("url", config.Url, "incomingURL")
-	args["attachmentsFile"] = flag.String("att", attachmentsFilePath, "attachment filepath")
-	args["param"] = flag.String("param", "", "parameters")
-	noStdin := flag.Bool("empty", false, "no stdin (for attachments post)")
-	noAttachments := flag.Bool("no-attachments", false, "no attachments")
-	flag.Parse()
+	args["channel"] = flags.String("ch", config.Channel, "channel name")
+	args["botname"] = flags.String("name", config.Name, "bot name")
+	args["icon"] = flags.String("icon", config.Icon, "bot icon. emoji or URL ")
+	args["incomingURL"] = flags.String("url", config.Url, "incomingURL")
+	args["attachmentsFile"] = flags.String("att", attachmentsFilePath, "attachment filepath")
+	args["param"] = flags.String("param", "", "parameters")
+	noStdin := flags.Bool("empty", false, "no stdin (for attachments post)")
+	noAttachments := flags.Bool("no-attachments", false, "no attachments")
+	flags.Parse(osArgs)
 
 	if *args["incomingURL"] == "" {
 		panic("no value for incoming-webhook URL")
